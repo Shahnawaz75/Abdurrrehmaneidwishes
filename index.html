@@ -7,76 +7,92 @@
     <style>
         * {
             box-sizing: border-box;
-        }
-        body {
             margin: 0;
             padding: 0;
-            background: radial-gradient(circle, #0a2f1d, #02110a); /* Emerald Green Theme */
+        }
+        body {
+            background: radial-gradient(circle, #0a2f1d, #02110a); /* Festively rich green background */
             overflow: hidden;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
+            width: 100vw;
             color: #fff;
+            padding: 20px;
         }
 
-        /* Initial Name Input Form */
-        .form-box {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 40px 30px;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px 0 rgba(255, 215, 0, 0.2);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            max-width: 90%;
-            width: 400px;
+        /* Responsive Wrappers */
+        .content-wrapper {
+            position: relative;
             z-index: 10;
-            transition: all 0.5s ease;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Dynamic containers for both Form and Card */
+        .form-box, .card {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 5vh 5vw; /* Adaptive padding based on viewport dimensions */
+            border-radius: 25px;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            max-width: 480px; /* Limits size on large screens */
+            box-shadow: 0 8px 32px 0 rgba(6, 214, 160, 0.2);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .gift-icon {
-            font-size: 60px;
+            font-size: clamp(50px, 8vh, 80px); /* Dynamically sizes icons based on screen space */
             margin-bottom: 15px;
             animation: bounce 1.2s infinite alternate;
         }
 
         h2 {
-            font-size: 1.6rem;
+            font-size: clamp(1.2rem, 2.5vw, 1.7rem);
             margin-bottom: 20px;
             color: #ffd700;
+            line-height: 1.4;
         }
 
         .name-input {
             width: 100%;
-            padding: 12px 20px;
-            font-size: 1.1rem;
+            padding: 14px 20px;
+            font-size: clamp(1rem, 2vw, 1.2rem);
             border: 2px solid #ffd700;
             border-radius: 50px;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.5);
             color: #fff;
             outline: none;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             transition: 0.3s;
         }
 
         .name-input:focus {
             box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+            background: rgba(0, 0, 0, 0.7);
         }
 
         .surprise-btn {
             background: linear-gradient(45deg, #ffd700, #ffaa00);
             color: #000;
             border: none;
-            padding: 12px 35px;
-            font-size: 1.1rem;
+            padding: 14px 40px;
+            font-size: clamp(1rem, 2vw, 1.2rem);
             font-weight: bold;
             border-radius: 50px;
             cursor: pointer;
             box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
             transition: transform 0.2s, box-shadow 0.2s;
+            width: auto;
+            max-width: 100%;
         }
 
         .surprise-btn:hover {
@@ -84,22 +100,11 @@
             box-shadow: 0 0 25px rgba(255, 215, 0, 0.7);
         }
 
-        /* Magical Greeting Card (Hidden initially) */
+        /* Magical Greeting Card (Initially Hidden) */
         .card {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.03);
-            padding: 40px 30px;
-            border-radius: 25px;
-            box-shadow: 0 8px 32px 0 rgba(6, 214, 160, 0.3);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            max-width: 90%;
-            width: 450px;
             transform: scale(0) rotate(-10deg);
             opacity: 0;
-            transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: none;
-            z-index: 10;
         }
 
         .card.reveal {
@@ -109,49 +114,53 @@
         }
 
         h1 {
-            font-size: 2.8rem;
-            margin: 0 0 10px 0;
+            font-size: clamp(2rem, 4.5vw, 2.8rem);
+            margin-bottom: 15px;
             color: #ffd700;
             text-shadow: 0 0 15px #ffd700;
             animation: pulseGlow 2s infinite alternate;
+            line-height: 1.2;
         }
 
         .friend-name {
-            font-size: 2.2rem;
+            font-size: clamp(1.8rem, 4vw, 2.4rem);
             color: #ffaa00;
-            margin: 10px 0;
+            margin: 15px 0;
             font-weight: bold;
             text-shadow: 0 0 10px rgba(255, 170, 0, 0.5);
+            word-wrap: break-word; /* Prevents long names from breaking layouts */
         }
 
         p {
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 2.2vw, 1.25rem);
             line-height: 1.6;
             color: #e0e1dd;
+            margin-bottom: 15px;
         }
 
         .sender {
-            font-size: 1.8rem;
+            font-size: clamp(1.4rem, 3vw, 1.8rem);
             font-weight: bold;
             color: #06d6a0;
-            text-shadow: 0 0 15px rgba(6, 214, 160, 0.6);
-            margin-top: 25px;
+            text-shadow: 0 0 15px rgba(6, 214, 160, 0.4);
+            margin-top: 20px;
             border-top: 1px dashed rgba(255,255,255,0.2);
             padding-top: 15px;
+            line-height: 1.4;
         }
 
-        /* Floating Bakra and Cow Elements */
+        /* Floating Animals Layer */
         .animal {
             position: absolute;
-            font-size: 35px;
-            bottom: -50px;
+            font-size: clamp(25px, 5vw, 40px);
+            bottom: -60px;
             pointer-events: none;
             z-index: 2;
             animation: floatUp 6s linear infinite;
             opacity: 0.8;
         }
 
-        /* Canvas for Fireworks */
+        /* Adaptive Full-Screen Canvas for Fireworks */
         canvas {
             position: absolute;
             top: 0;
@@ -162,21 +171,22 @@
             z-index: 1;
         }
 
+        /* Animation Keyframes */
         @keyframes bounce {
             0% { transform: translateY(0); }
-            100% { transform: translateY(-15px); }
+            100% { transform: translateY(-12px); }
         }
 
         @keyframes pulseGlow {
             from { text-shadow: 0 0 15px #ffd700; }
-            to { text-shadow: 0 0 35px #ffaa00; }
+            to { text-shadow: 0 0 30px #ffaa00; }
         }
 
         @keyframes floatUp {
             0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
             10% { opacity: 0.8; }
             90% { opacity: 0.8; }
-            100% { transform: translateY(-105vh) translateX(50px) rotate(20deg); opacity: 0; }
+            100% { transform: translateY(-110vh) translateX(50px) rotate(25deg); opacity: 0; }
         }
     </style>
 </head>
@@ -189,19 +199,21 @@
         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
     </audio>
 
-    <div class="form-box" id="nameForm">
-        <div class="gift-icon">🐐🐄🎁</div>
-        <h2>Your Bakra Eid Surprise is Waiting!</h2>
-        <input type="text" id="userInput" class="name-input" placeholder="Enter Your Name Here..." required>
-        <br>
-        <button class="surprise-btn" onclick="revealSurprise()">See Surprise!</button>
-    </div>
+    <div class="content-wrapper">
+        <div class="form-box" id="nameForm">
+            <div class="gift-icon">🐐🐄🎁</div>
+            <h2>Your Bakra Eid Surprise is Waiting!</h2>
+            <input type="text" id="userInput" class="name-input" placeholder="Enter Your Name Here..." required>
+            <br>
+            <button class="surprise-btn" onclick="revealSurprise()">See Surprise!</button>
+        </div>
 
-    <div class="card" id="greetingCard">
-        <h1>🐏 Eid-ul-Adha Mubarak 🐄</h1>
-        <div class="friend-name" id="displayName">Dear Friend</div>
-        <p>May your plate be full of delicious mutton, beef, and kababs, and your heart full of endless joy on this Bakra Eid!</p>
-        <div class="sender">With Love From:<br>✨ Abdur Rehman ✨</div>
+        <div class="card" id="greetingCard">
+            <h1>🐏 Eid-ul-Adha Mubarak 🐄</h1>
+            <div class="friend-name" id="displayName">Dear Friend</div>
+            <p>May your plate be full of delicious mutton, beef, and kababs, and your heart full of endless joy on this Bakra Eid!</p>
+            <div class="sender">With Love From:<br>✨ Abdur Rehman ✨</div>
+        </div>
     </div>
 
     <script>
@@ -222,35 +234,35 @@
                 card.classList.add('reveal');
             }, 100);
 
-            // Try to play festive audio background
+            // Audio Playback
             var audio = document.getElementById('eidMusic');
             audio.play().catch(function(error) {
-                console.log("Audio autoplay prevented by browser. Will play on interaction.");
+                console.log("Audio waiting for explicit interaction.");
             });
 
-            // Start Fireworks & Floating Animals
+            // Start system visual engines
             initFireworks();
             startAnimalRain();
         }
 
-        // --- Floating Bakra & Cow System ---
+        // --- Adaptive Animal Floatation System ---
         function startAnimalRain() {
-            const animals = ['🐐', '🐄', '🐏', '🎈', '✨'];
+            const animals = ['🐐', '🐄', '🐏', '✨', '🎈'];
             setInterval(() => {
                 const animalEl = document.createElement('div');
                 animalEl.classList.add('animal');
                 animalEl.innerText = animals[Math.floor(Math.random() * animals.length)];
-                animalEl.style.left = Math.random() * 100 + 'vw';
-                animalEl.style.animationDuration = (Math.random() * 3 + 4) + 's'; // 4 to 7 seconds
+                animalEl.style.left = Math.random() * 95 + 'vw';
+                animalEl.style.animationDuration = (Math.random() * 3 + 4) + 's';
                 document.body.appendChild(animalEl);
 
                 setTimeout(() => {
                     animalEl.remove();
                 }, 7000);
-            }, 600);
+            }, 700);
         }
 
-        // --- Fireworks System ---
+        // --- Adaptive Fireworks System ---
         const canvas = document.getElementById('fireworksCanvas');
         const ctx = canvas.getContext('2d');
 
@@ -268,10 +280,10 @@
                 this.x = x;
                 this.y = y;
                 this.color = color;
-                this.radius = Math.random() * 3 + 1;
+                this.radius = Math.random() * 2 + 1;
                 this.velocity = {
-                    x: (Math.random() - 0.5) * 8,
-                    y: (Math.random() - 0.5) * 8
+                    x: (Math.random() - 0.5) * (window.innerWidth < 600 ? 6 : 9), // Slower velocity scales for cleaner looks on mobile
+                    y: (Math.random() - 0.5) * (window.innerWidth < 600 ? 6 : 9)
                 };
                 this.alpha = 1;
                 this.decay = Math.random() * 0.015 + 0.015;
@@ -286,7 +298,7 @@
                 ctx.restore();
             }
             update() {
-                this.velocity.y += 0.05;
+                this.velocity.y += 0.04; // Adaptive gravity rate
                 this.x += this.velocity.x;
                 this.y += this.velocity.y;
                 this.alpha -= this.decay;
@@ -296,14 +308,15 @@
         function createFirework(x, y) {
             const colors = ['#ffd700', '#ffaa00', '#06d6a0', '#4cc9f0', '#ff007f', '#ffffff'];
             const randomColor = colors[Math.floor(Math.random() * colors.length)];
-            for (let i = 0; i < 45; i++) {
+            const particleCount = window.innerWidth < 600 ? 30 : 50; // Fewer particles on phone screens to optimize performance
+            for (let i = 0; i < particleCount; i++) {
                 particles.push(new Particle(x, y, randomColor));
             }
         }
 
         function animate() {
             requestAnimationFrame(animate);
-            ctx.fillStyle = 'rgba(10, 47, 29, 0.2)'; // Emerald trail
+            ctx.fillStyle = 'rgba(10, 47, 29, 0.2)'; 
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             particles.forEach((particle, index) => {
@@ -326,7 +339,7 @@
                 const randomX = Math.random() * canvas.width;
                 const randomY = Math.random() * (canvas.height / 2) + 100;
                 createFirework(randomX, randomY);
-            }, 800);
+            }, 1000);
         }
     </script>
 </body>
